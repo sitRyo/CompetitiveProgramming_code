@@ -7,15 +7,16 @@ using namespace atcoder;
 using ll = long long int;
 constexpr ll mod = 998244353;
 
-using S = ll;
-using F = ll;
+using mint = modint998244353;
+using S = mint;
+using F = mint;
 
 S INF = numeric_limits<int>::max();
 
 S op(S a, S b){ return a; }
 S e(){ return INF; }
-S mapping(F f, S x){ return (f+x) % mod; }
-F composition(F f, F g){ return (f+g) % mod; }
+S mapping(F f, S x){ return f+x; }
+F composition(F f, F g){ return f+g; }
 F id(){ return 0; }
 
 int main() {
@@ -33,15 +34,13 @@ int main() {
   atcoder::lazy_segtree<S, op, e, F, mapping, composition, id> seg(v);
 
   for (int i = 0; i < N-1; ++i) {
-    ll now = seg.get(i);
+    mint now = seg.get(i);
     for (int j = 0; j < K; ++j) {
       int l = Range[j].first + i, r = min(Range[j].second + i, N);
       if (l >= N) continue;
-      // cout << l << ' ' << r << endl;
       seg.apply(l, r, now);
-      // cout << "ok" << endl;
     }
   }
 
-  cout << seg.get(N-1) << endl;
+  cout << seg.get(N-1).val() << endl;
 }
